@@ -1,3 +1,4 @@
+
 # 6.0001 Problem Set 3
 #
 # The 6.0001 Word Game
@@ -558,10 +559,11 @@ def play_game(word_list):
                     replay_score = replay_loop(replay, hand, word_list)
                    # print("current Score " + str(total_score))
                     if replay_score == -1:
+                        total_score = total_score + subs_score
                         print("current Score " + str(total_score))
                         print("first situation2")
                     elif subs_score > replay_score:
-                        total_score = total_score + replay_score
+                        total_score = total_score + subs_score
                         print("current Score " + str(total_score))
                         replay -= 1
                     else:
