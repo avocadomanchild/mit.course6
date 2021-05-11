@@ -1,4 +1,3 @@
-
 # 6.0001 Problem Set 3
 #
 # The 6.0001 Word Game
@@ -461,7 +460,7 @@ def subs_loop(subs, hand, word_list):
                 print("Please enter a letter in the hand!")
                 continue
             else:
-                print(x2)
+                #print(x2)
                 subs -= 1
                 score = play_hand(x2, word_list)
                 return score
@@ -475,6 +474,12 @@ def subs_loop(subs, hand, word_list):
 
 def play_game(word_list):
     try:
+        print('''This game is like words with friends without the friends.
+In this game the computer will generate a series of letters and you goal is create words that will produce the most points!
+Each hand has a at least 3 vowels and 3 constants and one letter is an asterisk *. The asterisk can be used as a free letter
+but you can only be used to replace a vowel when entering a hand. You are also given one replay to redo a hand and one substitution 
+through out the whole game. 
+ ''')
         number_hands = int(input("Enter total number of hands:"))
 
         # print(number_hands)
@@ -485,10 +490,11 @@ def play_game(word_list):
         while number_hands > 0:
             hand = (deal_hand(HAND_SIZE))
             x = str(display_hand(hand))
-            print("hands: " + str(number_hands))
-            print("replays: " + str(replay))
-            print("subs: " + str(subs))
+            print("Number of Hands: " + str(number_hands))
+            print("Number of Replays: " + str(replay))
+            print("Number of Substitution: " + str(subs))
             print("Current Hand: " + x)
+            print("Current Score: " + str(total_score))
             # print(y)
             # if replay == 1 and subs == 1:
             if subs == 0 and replay == 0:
@@ -496,25 +502,23 @@ def play_game(word_list):
                 score1 = play_hand(hand, word_list)
                 number_hands -= 1
                 total_score = total_score + score1
-                print("Current Score: " + str(total_score))
-
             elif subs == 0 and replay == 1:
                 print("1")
                 score1 = play_hand(hand, word_list)
                 replay_score = replay_loop(replay, hand, word_list)
                 if replay_score == -1 :
                     total_score = total_score + score1
-                    print("current Score " + str(total_score))
+                    #print("Current Score " + str(total_score))
                     number_hands -= 1
                 else:
                     if replay_score > score1:
                         total_score =  total_score + replay_score
-                        print("current Score " + str(total_score))
+                        #print("Current Score " + str(total_score))
                         replay -= 1
                         number_hands -= 1
                     else:
                         total_score = total_score + replay_score
-                        print("current Score " + str(total_score))
+                        #print("Current Score " + str(total_score))
                         replay -= 1
                         number_hands -= 1
             elif subs == 1 and replay == 0:
@@ -524,13 +528,13 @@ def play_game(word_list):
                     score1 = play_hand(hand, word_list)
                     number_hands -= 1
                     total_score = total_score + score1
-                    print("you are here ")
-                    print("Current Score " + str(total_score))
+                    #print("you are here ")
+                    #print("Current Score " + str(total_score))
                 else:
                     number_hands -= 1
                     subs -= 1
                     total_score = total_score + subs_score
-                    print("current Score " + str(total_score))
+                    #print("Current Score " + str(total_score))
 
             elif subs == 1 and replay == 1:
                 print("3")
@@ -538,20 +542,20 @@ def play_game(word_list):
                 if subs_score == -1:     # if the user says no
                     score1 = play_hand(hand, word_list)
                     #total_score = total_score + score1
-                    print("you are here ")
+                    #print("you are here ")
                     replay_score = replay_loop(replay, hand, word_list) # ask the user to replay
                     if replay_score == -1:
                         total_score = total_score + score1
-                        print("Current Score " + str(total_score))
-                        print("first situation")
+                        #print("Current Score " + str(total_score))
+                        #print("first situation")
                     elif subs_score > replay_score:
                         total_score = total_score + replay_score
-                        print("current Score " + str(total_score))
+                        #print("Current Score " + str(total_score))
                         replay -= 1
                     else:
                         total_score = total_score + replay_score
-                        print("Current Score " + str(total_score))
-                        print("second situation")
+                       # print("Current Score " + str(total_score))
+                        #print("second situation")
                         replay -= 1
                     number_hands -= 1
                 else:
@@ -560,16 +564,16 @@ def play_game(word_list):
                    # print("current Score " + str(total_score))
                     if replay_score == -1:
                         total_score = total_score + subs_score
-                        print("current Score " + str(total_score))
-                        print("first situation2")
+                        #print("Current Score " + str(total_score))
+                        #print("first situation2")
                     elif subs_score > replay_score:
                         total_score = total_score + subs_score
-                        print("current Score " + str(total_score))
+                        #print("Current Score " + str(total_score))
                         replay -= 1
                     else:
                         total_score = total_score + replay_score
-                        print("current Score " + str(total_score))
-                        print("second situation3")
+                        #print("Current Score " + str(total_score))
+                       # print("second situation3")
                         replay -= 1
                     number_hands -= 1
 
@@ -624,45 +628,4 @@ if __name__ == '__main__':
     word_list = load_words()
     play_game(word_list)
 
-# elif subs == 0 and replay == 1:
-#     #play game
-#     # ask if they want to replay the hand
-#     # if yes
-#         #replay hand
-#     #elif no
-#         # end game
-# elif subs == 1 and replay == 0:
-#     # ask if they want to
 
-
-# while replay > 0 or subs > 0:
-#     try:
-#         if subs == 1 and replay == 1:
-#             #print(x)
-#             subst = input("Would you like to substitute a letter:").lower().strip(" ")
-#             if subst == "yes":
-#                 print(x)
-#                 new_letter = (input("Which letter would you like to replace:").strip(" "))
-#                 x2 = (substitute_hand(y, new_letter))
-#                 print(x2)
-#                 play_hand(x2, word_list)
-#                 subs -= 1
-#                 number_hands -= 1
-#             elif subst == "no":
-#                 play_hand(y, word_list)
-#                 print("Would you like to replay the hand")
-#
-#             else:
-#                 print("Please enter yes or no")
-#
-#         # elif subs == 0 and replay == 1:
-#         #     break
-#
-#
-#
-#
-#
-#
-#
-#     except:
-#         print("try again")
