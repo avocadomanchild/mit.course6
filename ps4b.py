@@ -4,6 +4,7 @@
 # Time Spent: x:xx
 
 import string
+import copy 
 
 ### HELPER CODE ###
 def load_words(file_name):
@@ -115,24 +116,24 @@ class Message(object):
         Returns: a dictionary mapping a letter (string) to 
                  another letter (string). 
         '''
-        lower_letters = string.ascii_lowercase
-        upper_letters  = string.ascii_lowercase.upper()
-        Total_letters = lower_letters + upper_letters
-        dict = {}
-        my_dict = {}
-        for i in Total_letters:
-            dict[i] = Total_letters.index(i)
-        #print(dict)
-        for j in dict:
-            if Total_letters.index(j) + shift > 51:
-                my_dict[j] = Total_letters.index(j) + shift - 52
-            else:
-                my_dict[j] = Total_letters.index(j)+ shift
-
-
-
-
-        return my_dict
+        if 0 <= shift <= 25: 
+            
+            lower_letters = string.ascii_lowercase
+            upper_letters  = string.ascii_lowercase.upper()
+            Total_letters = lower_letters + upper_letters
+            dict = {}
+            my_dict = {}
+            for i in Total_letters:
+                dict[i] = Total_letters.index(i)
+            #print(dict)
+            for j in dict:
+                if Total_letters.index(j) + shift > 51:
+                    my_dict[j] = Total_letters.index(j) + shift - 52
+                else:
+                    my_dict[j] = Total_letters.index(j)+ shift
+            return my_dict
+        else: 
+            print("shift must be a number from 0-25")
 
 
 
@@ -150,7 +151,7 @@ class Message(object):
         '''
         dict = self.orginal_shift()
         my_dict = self.build_shift_dict(shift)
-        print(my_dict)
+        #print(my_dict)
         #print(type(my_dict.values()))
         string = []
         new_message = ""
@@ -166,38 +167,17 @@ class Message(object):
 
             if chars in my_dict.values():
                 for num in my_dict:
-                    print("str:" + str(chars))
-                    print("num:" + str(my_dict[num]))
+                   # print("str:" + str(chars))
+                   # print("num:" + str(my_dict[num]))
                     if my_dict[num] == chars:
-                        print(num)
+                        #print(num)
                         new_message = new_message + num
             else:
                 new_message = new_message + chars
 
-
-                    # if chars == num:
-                    #     new_message = new_message + dict[i] = Total_letters.index(i)
-                    #      #print(my_dict[num])
-                    # #     #new_message = new_message + num
-                    # # else:
-                    # #     print(chars)
-                    # #     #new_message = new_message + num
-                    #
-                    # else:
-                    #     print("no")
-
-
-            # if chars in my_dict.values():
-            #     new_message = new_message + str(my_dict.get(chars))
-            #     print(my_dict.get(chars))
-            #     #print(my_dict[chars])
-            #     print(my_dict.keys(chars))
-            # else:
-            #     new_message = new_message + chars
-
-
-        print(string)
-        print(new_message)
+        #print(string)
+        #print(new_message)
+        return new_message
 
 
 
@@ -205,11 +185,12 @@ class Message(object):
 
 
 c = Message("poop p")
-print(c.build_shift_dict(2))
+#print(c.build_shift_dict(2))
 #print(c.orginal_shift())
-c.apply_shift(2)
+#print(c.apply_shift(2))
 class PlaintextMessage(Message):
     def __init__(self, text, shift):
+        Message.__init__(self, text)
         '''
         Initializes a PlaintextMessage object        
         
@@ -224,6 +205,8 @@ class PlaintextMessage(Message):
             self.message_text_encrypted (string, created using shift)
 
         '''
+        self.shift = shift 
+        
         
 
     def get_shift(self):
@@ -240,7 +223,7 @@ class PlaintextMessage(Message):
         
         Returns: a COPY of self.encryption_dict
         '''
-        encryption_dict = self.build_shift_dict(shift)
+        encryption_dict = self.build_shift_dict(self.shift)
         return encryption_dict
 
     def get_message_text_encrypted(self):
@@ -249,9 +232,12 @@ class PlaintextMessage(Message):
         
         Returns: self.message_text_encrypted
         '''
+        get_message_text_encrypted = self.apply_shift(self.shift)
+        return get_message_text_encrypted
 
-
-    def change_shift(self, shift):
+    # def __str__(self):
+    #     return "message:"+str(self.)
+    def change_shift(self, new_shift):
         '''
         Changes self.shift of the PlaintextMessage and updates other 
         attributes determined by shift.        
@@ -261,8 +247,21 @@ class PlaintextMessage(Message):
 
         Returns: nothing
         '''
-        pass #delete this line and replace with your code here
+        if 0 <= new_shift <= 25: 
 
+            self.shift = new_shift 
+            print(self.shift)
+        else: 
+            print("shift must be within 0-25")
+
+
+
+d = PlaintextMessage("poop",2)
+b = PlaintextMessage("none",3)
+print(d.get_shift())
+#print(d.get_message_text_encrypted())
+#print((d.get_encryption_dict()))
+print(d.change_shift(3))
 
 class CiphertextMessage(Message):
     def __init__(self, text):
@@ -275,7 +274,7 @@ class CiphertextMessage(Message):
             self.message_text (string, determined by input text)
             self.valid_words (list, determined using helper function load_words)
         '''
-        pass #delete this line and replace with your code here
+       # self.ciphermessage = text
 
     def decrypt_message(self):
         '''
@@ -292,9 +291,10 @@ class CiphertextMessage(Message):
 
         Returns: a tuple of the best shift value used to decrypt the message
         and the decrypted message text using that shift value
-        '''
-        pass #delete this line and replace with your code here
 
+
+        '''
+       
 if __name__ == '__main__':
 
 #    #Example test case (PlaintextMessage)
