@@ -88,8 +88,10 @@ class Message(object):
         This helps you avoid accidentally mutating class attributes.
         
         Returns: a COPY of self.valid_words
+
         '''
-        return self.valid_words
+        x = copy.deepcopy(self.valid_words)
+        return x
 
     def orginal_shift(self):
         lower_letters = string.ascii_lowercase
@@ -150,7 +152,7 @@ class Message(object):
              down the alphabet by the input shift
         '''
         dict = self.orginal_shift()
-        my_dict = self.build_shift_dict(shift)
+        my_dict = self.build_shift_dict(26-shift)
         #print(my_dict)
         #print(type(my_dict.values()))
         string = []
@@ -167,16 +169,16 @@ class Message(object):
 
             if chars in my_dict.values():
                 for num in my_dict:
-                   # print("str:" + str(chars))
-                   # print("num:" + str(my_dict[num]))
+                    #print("str:" + str(chars))
+                    #print("num:" + str(my_dict[num]))
                     if my_dict[num] == chars:
                         #print(num)
                         new_message = new_message + num
             else:
                 new_message = new_message + chars
 
-        #print(string)
-        #print(new_message)
+        print(string)
+        print(new_message)
         return new_message
 
 
@@ -185,9 +187,9 @@ class Message(object):
 
 
 c = Message("poop p")
-#print(c.build_shift_dict(2))
-#print(c.orginal_shift())
-#print(c.apply_shift(2))
+##print(c.build_shift_dict(25))
+print(c.orginal_shift())
+#print(c.apply_shift(25))
 class PlaintextMessage(Message):
     def __init__(self, text, shift):
         Message.__init__(self, text)
@@ -256,15 +258,18 @@ class PlaintextMessage(Message):
 
 
 
-d = PlaintextMessage("poop",2)
-b = PlaintextMessage("none",3)
-print(d.get_shift())
-#print(d.get_message_text_encrypted())
-#print((d.get_encryption_dict()))
-print(d.change_shift(3))
+d = PlaintextMessage("hello",24)
+#b = PlaintextMessage("none",3)
+#print(d.get_shift())
+print((d.get_message_text_encrypted()))
+print((d.get_encryption_dict()))
+#print(d.change_shift(3))
 
 class CiphertextMessage(Message):
     def __init__(self, text):
+        Message.__init__(self, text)
+
+
         '''
         Initializes a CiphertextMessage object
                 
@@ -274,7 +279,6 @@ class CiphertextMessage(Message):
             self.message_text (string, determined by input text)
             self.valid_words (list, determined using helper function load_words)
         '''
-       # self.ciphermessage = text
 
     def decrypt_message(self):
         '''
@@ -294,6 +298,68 @@ class CiphertextMessage(Message):
 
 
         '''
+        emptylist = [] 
+        for i in range(1,26): 
+            x = self.apply_shift(i)
+            list = x.split()
+            emptylist.append(list)
+       # print(emptylist)
+        y = 0 
+        counter = [] 
+        #for words in self.valid_words: 
+        #     print(words)
+        # for message in emptylist: 
+        #     print(message)
+        #     for word in message: 
+        #         print(word)
+        #         #print(type(word))
+        # if "apple" in x :
+        #     print("yes")
+        # else: 
+        #     print("no")
+        # print(type(self.valid_words))
+
+        # print(x)                    
+        y = self.get_valid_words()
+        #print(y[0:10])
+        list2 = [] # list of valid words because they have /n
+        
+        list3 = [] #counter 
+        for words in y: 
+            x = words.strip('\n') # this will strip the /n in the list 
+            list2.append(x) # putting into new list 
+        for message in emptylist: # for loop throught the list of applyed shift to the instance of the object 
+            #print(message)
+            y2 = 0 
+            for word in message:  # for looping if the message has more than one word 
+                if word in list2: 
+                    y2 = y2 + 1 
+            list3.append(y2)
+
+        maxvalue = max(list3)
+        index_postion = list3.index(maxvalue)
+        final_position = 25 - index_postion
+        #print(index_postion)
+        decrypt_word =  emptylist[index_postion]
+        answer = (final_position,decrypt_word)
+        #print (answer)
+        return answer
+        
+
+
+
+
+
+
+        
+
+
+            
+            
+ciphertext = CiphertextMessage('jgnnq jgnnq')
+#print(ciphertext.decrypt_message())
+
+
        
 if __name__ == '__main__':
 
