@@ -152,7 +152,7 @@ class Message(object):
              down the alphabet by the input shift
         '''
         dict = self.orginal_shift()
-        my_dict = self.build_shift_dict(26-shift)
+        my_dict = self.build_shift_dict(shift)
         #print(my_dict)
         #print(type(my_dict.values()))
         string = []
@@ -186,9 +186,9 @@ class Message(object):
 
 
 
-c = Message("poop p")
+#c = Message("poop p")
 ##print(c.build_shift_dict(25))
-print(c.orginal_shift())
+#print(c.orginal_shift())
 #print(c.apply_shift(25))
 class PlaintextMessage(Message):
     def __init__(self, text, shift):
@@ -258,11 +258,11 @@ class PlaintextMessage(Message):
 
 
 
-d = PlaintextMessage("hello",24)
+
 #b = PlaintextMessage("none",3)
 #print(d.get_shift())
-print((d.get_message_text_encrypted()))
-print((d.get_encryption_dict()))
+
+#print((d.get_encryption_dict()))
 #print(d.change_shift(3))
 
 class CiphertextMessage(Message):
@@ -332,14 +332,15 @@ class CiphertextMessage(Message):
             #print(message)
             y2 = 0 
             for word in message:  # for looping if the message has more than one word 
-                if word in list2: 
-                    y2 = y2 + 1 
-            list3.append(y2)
+                if word.lower() in list2: 
+                    print(word)
+                   git add p
+        
 
         maxvalue = max(list3)
         index_postion = list3.index(maxvalue)
-        final_position = 25 - index_postion
-        #print(index_postion)
+        final_position = index_postion + 1
+        print(index_postion)
         decrypt_word =  emptylist[index_postion]
         answer = (final_position,decrypt_word)
         #print (answer)
@@ -352,12 +353,18 @@ class CiphertextMessage(Message):
 
 
         
+plaintext = PlaintextMessage('my name is ben ', 5)
+print('Actual Output:', plaintext.get_message_text_encrypted())
+
+ciphertext = CiphertextMessage('ht iVhZ dn WZi')
+# print('Expected Output:', (24, 'hello'))
+print('Actual Output:', ciphertext.decrypt_message())
 
 
-            
-            
-ciphertext = CiphertextMessage('jgnnq jgnnq')
-#print(ciphertext.decrypt_message())
+# d = PlaintextMessage("apple",3)           
+# print((d.get_message_text_encrypted()))           
+# ciphertext = CiphertextMessage('DSSOH')
+# print(ciphertext.decrypt_message())
 
 
        
